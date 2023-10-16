@@ -1,0 +1,19 @@
+{
+  "name": "job-hunt-log",
+  "version": "1.0.0",
+  "description": "A full stack web application for users to track their job applications designed similarly to Trello and Huntr",
+  "main": "index.js",
+  "scripts": {
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-kwon/Job-Hunt-Log.git"
+  },
+  "author": "Matthew Kwon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-kwon/Job-Hunt-Log/issues"
+  },
+  "homepage": "https://github.com/m-kwon/Job-Hunt-Log#readme"
+}
