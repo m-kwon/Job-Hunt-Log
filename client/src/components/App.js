@@ -5,6 +5,7 @@ import './App.css';
 const App = () => {
   return (
     <>
+      <h1>Job Hunt Log</h1>
       <Board />
     </>
   );

@@ -1,0 +1,12 @@
+.list {
+  background-color: #f1f1f1;
+  padding: 16px;
+  margin: 16px;
+  border: 1px solid #ddd;
+  flex: 1;
+  min-width: 200px;
+}
+
+.list-header {
+  font-weight: bold;
+}

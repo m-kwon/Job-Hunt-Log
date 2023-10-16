@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import Card from '../Card';
 
+import './styles.css';
+
 const List = ({ listName }) => {
   const cards = useSelector((state) => state.jobApplications.applications.filter((app) => app.list === listName));
 
