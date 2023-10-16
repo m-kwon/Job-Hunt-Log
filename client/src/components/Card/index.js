@@ -6,7 +6,7 @@ import './styles.css';
 
 Modal.setAppElement('#root');
 
-const Card = ({ application }) => {
+const Card = ({ application, onRemove }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [updatedData, setUpdatedData] = useState(application);
 
@@ -22,12 +22,15 @@ const Card = ({ application }) => {
 
   const updateCard = () => {
     dispatch(updateApplication(updatedData));
-    closeModal(); // Close the modal after updating
+    closeModal();
   };
 
   const removeCard = () => {
     dispatch(removeApplication(application.id));
-    closeModal(); // Close the modal after removing
+    closeModal();
+    if (onRemove) {
+      onRemove();
+    }
   };
 
   return (

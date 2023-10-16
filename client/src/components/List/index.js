@@ -15,6 +15,7 @@ const List = ({ listName }) => {
     company: '',
     jobUrl: '',
   });
+  const [cardCount, setCardCount] = useState(0);
 
   const dispatch = useDispatch();
   const jobApplications = useSelector((state) => state.jobApplications);
@@ -41,13 +42,21 @@ const List = ({ listName }) => {
       dispatch(addApplication({ ...newJobData, applicationDate, listName }));
       setNewJobData({ title: '', company: '', jobUrl: '' });
       closeModal();
+      setCardCount(cardCount + 1);
     }
+  };
+
+  const onRemoveCard = () => {
+    setCardCount(cardCount - 1);
   };
 
   return (
     <div className="list">
       <div className="list-header">
         {listName}
+        <div>
+          <br/>{cardCount} jobs
+        </div>
         <button className="add-button" onClick={openModal}>
           +
         </button>
@@ -57,8 +66,12 @@ const List = ({ listName }) => {
           .applications
           .filter((app) => app.listName === listName)
           .map((app, index) => (
-            <Card key={index} application={app} /> // Render the Card component
-          ))}
+            <Card
+              key={index}
+              application={app}
+              onRemove={onRemoveCard}
+          />
+        ))}
       </div>
       <Modal
         isOpen={modalIsOpen}
