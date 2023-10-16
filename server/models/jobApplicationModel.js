@@ -62,7 +62,7 @@ async function deleteJobApplication(jobApplicationId) {
   try {
     const query = 'DELETE FROM job_hunt_log.applications WHERE id = $1';
     const result = await client.query(query, [jobApplicationId]);
-    return result.rowCount === 1; // Return true if a row was deleted
+    return result.rowCount === 1;
   } finally {
     client.release();
   }
