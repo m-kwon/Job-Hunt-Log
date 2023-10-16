@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { addApplication } from '../../slices/jobApplicationsSlice';
+import Card from '../Card';
 
 import './styles.css';
 
@@ -56,10 +57,7 @@ const List = ({ listName }) => {
           .applications
           .filter((app) => app.listName === listName)
           .map((app, index) => (
-            <div key={index} className="card">
-              <div className="card-title">{app.title}</div>
-              <div className="card-company">{app.company}</div>
-            </div>
+            <Card key={index} application={app} /> // Render the Card component
           ))}
       </div>
       <Modal
