@@ -21,7 +21,8 @@ const Card = ({ application, onRemove }) => {
     setModalIsOpen(false);
   };
 
-  const updateCard = () => {
+  const updateCard = (e) => {
+    e.stopPropagation();
     dispatch(updateApplication(updatedData));
     closeModal();
   };
@@ -34,6 +35,11 @@ const Card = ({ application, onRemove }) => {
     }
   };
 
+  const closeCardModal = (e) => {
+    e.stopPropagation();
+    closeModal();
+  };
+
   return (
     <div className="card" onClick={openModal}>
       <div className="card-title">{updatedData.title}</div>
@@ -41,7 +47,7 @@ const Card = ({ application, onRemove }) => {
       <button className="remove-button" onClick={removeCard}>x</button>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        onRequestClose={closeCardModal}
         contentLabel="Card Details Modal"
       >
         <h2>Job Application Details</h2>
@@ -62,7 +68,7 @@ const Card = ({ application, onRemove }) => {
           />
         </div>
         <div>
-          <label>Job URL: </label>
+          <label>URL: </label>
           <input
             type="text"
             value={updatedData.jobUrl}
@@ -70,12 +76,12 @@ const Card = ({ application, onRemove }) => {
           />
         </div>
         <div>
-          <label>Application Date: </label>
+          <label>Applied on: </label>
           {updatedData.applicationDate}
         </div>
-        <button onClick={updateCard}>Update Card</button>
-        <button onClick={removeCard}>Remove Card</button>
-        <button onClick={closeModal}>Close</button>
+        <button onClick={updateCard}>Update</button>
+        <button onClick={removeCard}>Remove</button>
+        <button onClick={closeCardModal}>Close</button>
       </Modal>
     </div>
   );
