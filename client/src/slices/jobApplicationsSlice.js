@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+let nextApplicationId = 1;
+
 const initialState = {
   applications: [],
 };
@@ -9,7 +11,11 @@ const jobApplicationsSlice = createSlice({
   initialState,
   reducers: {
     addApplication: (state, action) => {
-      state.applications.push(action.payload);
+      const newApplication = {
+        ...action.payload,
+        id: nextApplicationId++,
+      };
+      state.applications.push(newApplication);
     },
     removeApplication: (state, action) => {
       state.applications = state.applications.filter(application => application.id !== action.payload);

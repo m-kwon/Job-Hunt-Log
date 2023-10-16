@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 import { updateApplication, removeApplication } from '../../slices/jobApplicationsSlice';
+
 import './styles.css';
 
 Modal.setAppElement('#root');
@@ -35,8 +36,8 @@ const Card = ({ application, onRemove }) => {
 
   return (
     <div className="card" onClick={openModal}>
-      <div className="card-title">{application.title}</div>
-      <div className="card-company">{application.company}</div>
+      <div className="card-title">{updatedData.title}</div>
+      <div className="card-company">{updatedData.company}</div>
       <button className="remove-button" onClick={removeCard}>x</button>
       <Modal
         isOpen={modalIsOpen}
@@ -70,7 +71,7 @@ const Card = ({ application, onRemove }) => {
         </div>
         <div>
           <label>Application Date: </label>
-          {application.applicationDate}
+          {updatedData.applicationDate}
         </div>
         <button onClick={updateCard}>Update Card</button>
         <button onClick={removeCard}>Remove Card</button>

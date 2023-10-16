@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { addApplication } from '../../slices/jobApplicationsSlice';
+import { addApplication, removeApplication } from '../../slices/jobApplicationsSlice';
 import Card from '../Card';
 
 import './styles.css';
@@ -20,20 +20,17 @@ const List = ({ listName }) => {
   const dispatch = useDispatch();
   const jobApplications = useSelector((state) => state.jobApplications);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewJobData({
-      ...newJobData,
-      [name]: value,
-    });
-  };
-
   const openModal = () => {
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+
+  const onRemoveCard = (removedCardId) => {
+    setCardCount(cardCount - 1);
+    dispatch(removeApplication(removedCardId));
   };
 
   const addCard = () => {
@@ -44,10 +41,6 @@ const List = ({ listName }) => {
       closeModal();
       setCardCount(cardCount + 1);
     }
-  };
-
-  const onRemoveCard = () => {
-    setCardCount(cardCount - 1);
   };
 
   return (
@@ -70,8 +63,8 @@ const List = ({ listName }) => {
               key={index}
               application={app}
               onRemove={onRemoveCard}
-          />
-        ))}
+            />
+          ))}
       </div>
       <Modal
         isOpen={modalIsOpen}
@@ -83,21 +76,21 @@ const List = ({ listName }) => {
           type="text"
           name="title"
           value={newJobData.title}
-          onChange={handleInputChange}
+          onChange={(e) => setNewJobData({ ...newJobData, title: e.target.value })}
           placeholder="Job Title"
         />
         <input
           type="text"
           name="company"
           value={newJobData.company}
-          onChange={handleInputChange}
+          onChange={(e) => setNewJobData({ ...newJobData, company: e.target.value })}
           placeholder="Company Name"
         />
         <input
           type="text"
           name="jobUrl"
           value={newJobData.jobUrl}
-          onChange={handleInputChange}
+          onChange={(e) => setNewJobData({ ...newJobData, jobUrl: e.target.value })}
           placeholder="Job Listing URL"
         />
         <button onClick={addCard}>Add Card</button>
