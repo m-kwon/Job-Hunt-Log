@@ -1,4 +1,4 @@
-CREATE DATABASE "Job-Hunt-Log";
+CREATE DATABASE "Job_Hunt_Log";
 
 CREATE SCHEMA IF NOT EXISTS job_hunt_log;
 
