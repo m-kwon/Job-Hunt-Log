@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addApplication } from '../../slices/jobApplicationsSlice';
 
 import './styles.css';
@@ -16,6 +16,7 @@ const List = ({ listName }) => {
   });
 
   const dispatch = useDispatch();
+  const jobApplications = useSelector((state) => state.jobApplications);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,6 +50,17 @@ const List = ({ listName }) => {
         <button className="add-button" onClick={openModal}>
           +
         </button>
+      </div>
+      <div className="cards">
+        {jobApplications
+          .applications
+          .filter((app) => app.listName === listName)
+          .map((app, index) => (
+            <div key={index} className="card">
+              <div className="card-title">{app.title}</div>
+              <div className="card-company">{app.company}</div>
+            </div>
+          ))}
       </div>
       <Modal
         isOpen={modalIsOpen}
