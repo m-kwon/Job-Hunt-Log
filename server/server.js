@@ -1,11 +1,12 @@
-import express from 'express';
-import { json } from 'body-parser';
-import cors from 'cors';
-import morgan from 'morgan';
-import { Pool } from 'pg';
-import bcrypt from 'bcryptjs';
-import asyncHandler from 'express-async-handler';
-import 'dotenv/config';
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const morgan = require('morgan');
+const { Pool } = require('pg');
+const bcrypt = require('bcryptjs');
+const asyncHandler = require('express-async-handler');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 
@@ -15,6 +16,9 @@ app.use(cors());
 app.use(morgan('combined'));
 
 // Routes / API Endpoints
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
 
 // Start server
 const port = process.env.PORT || 8001;
