@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 import { updateApplication, removeApplication } from '../../slices/jobApplicationsSlice';
-import { Draggable } from 'react-beautiful-dnd';
+import { DndContext } from '@dnd-kit/core';
+import Draggable from '../../util/Draggable';
+import Droppable from '../../util/Droppable';
 
 import './styles.css';
 
@@ -11,6 +13,7 @@ Modal.setAppElement('#root');
 const Card = ({ application, onRemove, index }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [updatedData, setUpdatedData] = useState(application);
+  const [parent, setParent] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -41,16 +44,20 @@ const Card = ({ application, onRemove, index }) => {
     closeModal();
   };
 
+  const draggable = (
+    <Draggable id="draggable" />
+  );
+
+  const handleDragEnd = ({ over }) => {
+    setParent(over ? over.id : null);
+  };
+
   return (
-    <Draggable draggableId={application.id} index={index}>
-      {(provided) => (
-        <div
-          className="card"
-          onClick={openModal}
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
+    <DndContext onDragEnd={handleDragEnd}>
+      {!parent ? draggable : null}
+      <Droppable id="droppable">
+        {parent === "droppable" ? draggable : 'Drop here'}
+        <div className="card" onClick={openModal}>
           <div className="card-title">{updatedData.title}</div>
           <div className="card-company">{updatedData.company}</div>
           <button className="remove-button" onClick={removeCard}>x</button>
@@ -93,8 +100,8 @@ const Card = ({ application, onRemove, index }) => {
             <button onClick={closeCardModal}>Close</button>
           </Modal>
         </div>
-      )}
-    </Draggable>
+      </Droppable>
+    </DndContext>
   );
 };
 
