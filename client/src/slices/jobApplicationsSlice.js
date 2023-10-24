@@ -28,9 +28,21 @@ const jobApplicationsSlice = createSlice({
         state.applications[applicationIndex] = { ...state.applications[applicationIndex], ...updatedData };
       }
     },
+    updateListName: (state, action) => {
+      const { cardId, newListName } = action.payload;
+      const card = state.applications.find((app) => app.id === cardId);
+      if (card) {
+        card.listName = newListName;
+      }
+    },
   },
 });
 
-export const { addApplication, removeApplication, updateApplication } = jobApplicationsSlice.actions;
+export const {
+  addApplication,
+  removeApplication,
+  updateApplication,
+  updateListName,
+} = jobApplicationsSlice.actions;
 
 export default jobApplicationsSlice.reducer;

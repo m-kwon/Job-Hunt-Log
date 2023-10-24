@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { addApplication, removeApplication } from '../../slices/jobApplicationsSlice';
+import { addApplication, removeApplication, updateListName } from '../../slices/jobApplicationsSlice';
 import Card from '../Card';
+import { useDrop } from 'react-dnd';
 
 import './styles.css';
 
@@ -28,11 +29,6 @@ const List = ({ listName }) => {
     setModalIsOpen(false);
   };
 
-  const onRemoveCard = (removedCardId) => {
-    setCardCount(cardCount - 1);
-    dispatch(removeApplication(removedCardId));
-  };
-
   const addCard = () => {
     if (newJobData.title.trim() !== '' && newJobData.company.trim() !== '' && newJobData.jobUrl.trim() !== '') {
       const applicationDate = new Date().toISOString();
@@ -43,26 +39,54 @@ const List = ({ listName }) => {
     }
   };
 
+  const moveCardToNewList = (cardId) => {
+    const cardToMove = jobApplications.applications.find((app) => app.id === cardId);
+    if (cardToMove) {
+      dispatch(updateListName({ cardId, newListName: listName }));
+    }
+  };
+
+  const [, drop] = useDrop({
+    accept: 'CARD',
+    drop: (item) => {
+      if (item.card && item.card.listName !== listName) {
+        moveCardToNewList(item.card.id);
+      }
+    },
+  });
+
+  useEffect(() => {
+    const cards = jobApplications.applications.filter((app) => app.listName === listName);
+    setCardCount(cards.length);
+  }, [jobApplications.applications, listName]);
+
+  const onRemoveCard = (cardId) => {
+    // Decrement the card count when a card is removed
+    setCardCount((prevCount) => prevCount - 1);
+    dispatch(removeApplication(cardId));
+  };
+
   return (
-    <div className="list">
+    <div className="list" ref={drop}>
       <div className="list-header">
         {listName}
         <div>
-          <br/>{cardCount} jobs
+          <br />
+          {cardCount} jobs
         </div>
         <button className="add-button" onClick={openModal}>
           +
         </button>
       </div>
       <div className="cards">
-        {jobApplications
-          .applications
+        {jobApplications.applications
           .filter((app) => app.listName === listName)
           .map((app, index) => (
             <Card
               key={index}
               application={app}
               onRemove={onRemoveCard}
+              setCardCount={setCardCount}
             />
           ))}
       </div>
