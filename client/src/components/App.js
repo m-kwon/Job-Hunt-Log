@@ -1,18 +1,14 @@
 import React from 'react';
 import Board from './Board';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import './App.css';
+import './styles/App.css';
 
 const App = () => {
   return (
-    <DndProvider backend={HTML5Backend}>
       <div>
-        <h1>Job Hunt Log</h1>
+        <h1 className="App-header">Job Hunt Log</h1>
         <Board />
       </div>
-    </DndProvider>
   );
 };
 
